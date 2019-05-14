@@ -1,27 +1,90 @@
-﻿@model CRUD.Models.CRUD
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html>
 <head>
     <title>CRUD</title>
+    <script src="@Url.Content("../../Scripts/vue.js")"></script>
+    <script src="@Url.Content("../../Scripts/axios.min.js")"></script>
+    <script src="@Url.Content("../../Scripts/lodash.js")"></script>
+    <style>
+        .modal {
+            border: black 1px solid;
+            height: 250px;
+            left: 25%;
+            position: fixed;
+            top: 25%;
+            width: 250px;
+        }
+    </style>
 </head>
 <body>
 <div>
     <h4>CRUD</h4>
-    <table border="1">
-        <tr>
-            <td>商品名稱</td>
-            <td>商品價格</td>
-        </tr>
-        @foreach (var product in Model.Products)
-        {
+    <div id="crud">
+        <table border="1">
             <tr>
-                <td>@product.Name</td>
-                <td>@product.Price</td>
+                <td>商品名稱</td>
+                <td>商品價格</td>
             </tr>
-        }
-    </table>
+            <tr v-for="item in data.Products">
+                <td>{{ item.Name }}</td>
+                <td>{{ item.Price }}</td>
+                <td>
+                    <button v-on:click="edit(item.ProductId)">編輯</button>
+                </td>
+                <td>
+                    <button v-on:click="del(item.ProductId)">刪除</button>
+                </td>
+            </tr>
+        </table>
+        <div class="modal">
+            商品名稱: <input v-model="data.EditProduct.Name">
+            商品價格: <input v-model="data.EditProduct.Price">
+            <button v-on:click="update">更新</button>
+        </div>
+    </div>
+    <script>
+        var crud = new Vue({
+            el: '#crud',
+            data: {
+                data: null
+            },
+            computed: {
+            
+            },
+            methods: {
+                edit: function(id) {
+                    var d = this.$data;
+                    d.data.EditProduct = _.find(d.data.Products, function(o) {
+                        return o.ProductId === id;
+                    });
+                },
+                update: function() {
+                    if (confirm('確定更新?')) {
+                        var d = this.$data;
+                        axios.post('/crud/update', d.data.EditProduct)
+                            .then(function(response) {
+                                if (response.status === 200) {
+                                    alert('更新成功');
+                                }
+                            })
+                            .catch(function(error) {
+                                console.log(error);
+                            });;
+                    }
+                },
+                del: function(id) {
+                }
+            },
+            mounted() {
+                var d = this.$data;
+                axios.post('/crud/query')
+                    .then(function(response) {
+                        d.data = response.data;
+                    });
+            }
+        });
+    </script>
 </div>
 </body>
 </html>
