@@ -5,7 +5,7 @@
     <title>CRUD</title>
     <script src="@Url.Content("../../Scripts/vue.js")"></script>
     <script src="@Url.Content("../../Scripts/axios.min.js")"></script>
-    <script src="@Url.Content("../../Scripts/lodash.js")"></script>
+    <script src="@Url.Content("../../Scripts/lodash.min.js")"></script>
     <style>
         .modal {
             border: black 1px solid;
@@ -73,8 +73,8 @@
                         axios.post('/crud/save', d.data.AddProduct)
                             .then(function(response) {
                                 if (response.status === 200) {
-                                    alert('儲存成功');
                                     d.data.Products.push(response.data);
+                                    alert('儲存成功');
                                     d.isAdd = false;
                                 }
                             })
@@ -119,6 +119,9 @@
                         axios.post('/crud/delete', { productId: productId })
                             .then(function(response) {
                                 if (response.status === 200) {
+                                    d.data.Products = d.data.Products.filter(function(o) {
+                                        return o.ProductId !== productId;
+                                    });
                                     alert('刪除成功');
                                 }
                             })
