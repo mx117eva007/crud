@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using CRUD.Delegates;
 
 namespace CRUD.Controllers
@@ -44,6 +45,18 @@ namespace CRUD.Controllers
         {
             Transaction.Run(Businesses.CRUD.Save, product);
             return Json(product);
+        }
+
+        /// <summary>
+        ///     刪除
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Delete(Guid productId)
+        {
+            Transaction.Run(Businesses.CRUD.Delete, productId);
+            return Json(productId);
         }
     }
 }

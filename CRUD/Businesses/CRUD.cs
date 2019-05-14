@@ -49,7 +49,10 @@ namespace CRUD.Businesses
         /// <param name="model"></param>
         public static void Delete(Database1Entities context, dynamic model)
         {
-            var product = (Product) model;
+            var productId = (Guid) model;
+            var first = context.Product.FirstOrDefault(p => p.ProductId == productId);
+            if (first == null) return;
+            context.Product.Remove(first);
         }
     }
 }

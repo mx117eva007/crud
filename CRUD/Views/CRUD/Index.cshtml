@@ -59,9 +59,6 @@
                 isAdd: false,
                 isEdit: false
             },
-            computed: {
-            
-            },
             methods: {
                 //新增
                 add: function() {
@@ -83,16 +80,17 @@
                             })
                             .catch(function(error) {
                                 alert(error);
+                                console.log(error);
                             });;
                     }
                 },
                 //編輯
-                edit: function(id) {
+                edit: function(productId) {
                     var d = this.$data;
                     d.isAdd = false;
                     d.isEdit = true;
                     d.data.EditProduct = _.find(d.data.Products, function(o) {
-                        return o.ProductId === id;
+                        return o.ProductId === productId;
                     });
                 },
                 //更新
@@ -108,11 +106,27 @@
                             })
                             .catch(function(error) {
                                 alert(error);
+                                console.log(error);
                             });;
                     }
                 },
                 //刪除
-                del: function(id) {
+                del: function(productId) {
+                    var d = this.$data;
+                    d.isAdd = false;
+                    d.isEdit = false;
+                    if (confirm('確定刪除?')) {
+                        axios.post('/crud/delete', { productId: productId })
+                            .then(function(response) {
+                                if (response.status === 200) {
+                                    alert('刪除成功');
+                                }
+                            })
+                            .catch(function(error) {
+                                alert(error);
+                                console.log(error);
+                            });;
+                    }
                 }
             },
             mounted() {
