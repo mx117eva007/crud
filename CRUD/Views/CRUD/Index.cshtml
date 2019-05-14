@@ -25,6 +25,9 @@
             <tr>
                 <td>商品名稱</td>
                 <td>商品價格</td>
+                <td>
+                    <button v-on:click="add">新增</button>
+                </td>
             </tr>
             <tr v-for="item in data.Products">
                 <td>{{ item.Name }}</td>
@@ -37,7 +40,12 @@
                 </td>
             </tr>
         </table>
-        <div class="modal">
+        <div class="modal" v-if="isAdd">
+            商品名稱: <input v-model="data.AddProduct.Name">
+            商品價格: <input v-model="data.AddProduct.Price">
+            <button v-on:click="save">儲存</button>
+        </div>
+        <div class="modal" v-if="isEdit">
             商品名稱: <input v-model="data.EditProduct.Name">
             商品價格: <input v-model="data.EditProduct.Price">
             <button v-on:click="update">更新</button>
@@ -47,18 +55,47 @@
         var crud = new Vue({
             el: '#crud',
             data: {
-                data: null
+                data: null,
+                isAdd: false,
+                isEdit: false
             },
             computed: {
             
             },
             methods: {
+                //新增
+                add: function() {
+                    var d = this.$data;
+                    d.isAdd = true;
+                    d.isEdit = false;
+                },
+                //儲存
+                save: function() {
+                    if (confirm('確定儲存?')) {
+                        var d = this.$data;
+                        axios.post('/crud/save', d.data.AddProduct)
+                            .then(function(response) {
+                                if (response.status === 200) {
+                                    alert('儲存成功');
+                                    d.data.Products.push(response.data);
+                                    d.isAdd = false;
+                                }
+                            })
+                            .catch(function(error) {
+                                alert(error);
+                            });;
+                    }
+                },
+                //編輯
                 edit: function(id) {
                     var d = this.$data;
+                    d.isAdd = false;
+                    d.isEdit = true;
                     d.data.EditProduct = _.find(d.data.Products, function(o) {
                         return o.ProductId === id;
                     });
                 },
+                //更新
                 update: function() {
                     if (confirm('確定更新?')) {
                         var d = this.$data;
@@ -66,13 +103,15 @@
                             .then(function(response) {
                                 if (response.status === 200) {
                                     alert('更新成功');
+                                    d.isEdit = false;
                                 }
                             })
                             .catch(function(error) {
-                                console.log(error);
+                                alert(error);
                             });;
                     }
                 },
+                //刪除
                 del: function(id) {
                 }
             },

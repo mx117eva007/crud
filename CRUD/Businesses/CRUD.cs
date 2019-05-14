@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace CRUD.Businesses
 {
@@ -27,6 +28,18 @@ namespace CRUD.Businesses
             if (first == null) return;
             first.Name = product.Name;
             first.Price = product.Price;
+        }
+
+        /// <summary>
+        ///     儲存
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="model"></param>
+        public static void Save(Database1Entities context, dynamic model)
+        {
+            var product = (Product) model;
+            product.ProductId = Guid.NewGuid();
+            context.Product.Add(product);
         }
 
         /// <summary>

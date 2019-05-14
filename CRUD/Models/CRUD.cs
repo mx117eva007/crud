@@ -5,7 +5,7 @@ namespace CRUD.Models
     public class CRUD
     {
         /// <summary>
-        ///     新增
+        ///     新增商品
         /// </summary>
         public Product AddProduct = new Product();
 
@@ -20,7 +20,7 @@ namespace CRUD.Models
         public Product EditProduct = new Product();
 
         /// <summary>
-        ///     查詢
+        ///     查詢商品
         /// </summary>
         public List<Product> Products = new List<Product>();
     }
