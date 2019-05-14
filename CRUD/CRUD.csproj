@@ -58,6 +58,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -120,6 +121,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Businesses\CRUD.cs" />
     <Compile Include="Controllers\CRUDController.cs" />
     <Compile Include="Database1.Context.cs">
       <AutoGen>True</AutoGen>
@@ -136,9 +138,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Database1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Delegates\Transaction.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CRUD.cs" />
     <Compile Include="Product.cs">
       <DependentUpon>Database1.tt</DependentUpon>
     </Compile>
@@ -162,9 +166,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>

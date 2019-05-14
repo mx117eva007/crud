@@ -1,4 +1,4 @@
-﻿@model dynamic
+﻿@model CRUD.Models.CRUD
 
 <!DOCTYPE html>
 
@@ -9,6 +9,19 @@
 <body>
 <div>
     <h4>CRUD</h4>
+    <table border="1">
+        <tr>
+            <td>商品名稱</td>
+            <td>商品價格</td>
+        </tr>
+        @foreach (var product in Model.Products)
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.Price</td>
+            </tr>
+        }
+    </table>
 </div>
 </body>
 </html>

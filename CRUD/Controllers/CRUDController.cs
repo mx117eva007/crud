@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using CRUD.Delegates;
 
 namespace CRUD.Controllers
 {
@@ -7,7 +8,9 @@ namespace CRUD.Controllers
         // GET: CRUD
         public ActionResult Index()
         {
-            return View();
+            var crud = new Models.CRUD();
+            Transaction.Run(Businesses.CRUD.Index, crud);
+            return View(crud);
         }
     }
 }
