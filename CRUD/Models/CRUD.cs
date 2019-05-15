@@ -23,5 +23,10 @@ namespace CRUD.Models
         ///     查詢商品
         /// </summary>
         public List<Product> Products = new List<Product>();
+
+        /// <summary>
+        ///     關鍵字
+        /// </summary>
+        public string Keyword { get; set; }
     }
 }

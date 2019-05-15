@@ -16,9 +16,8 @@ namespace CRUD.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Query()
+        public ActionResult Query(Models.CRUD crud)
         {
-            var crud = new Models.CRUD();
             Transaction.Run(Businesses.CRUD.Query, crud);
             return Json(crud);
         }

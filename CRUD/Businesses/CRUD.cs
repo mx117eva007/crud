@@ -13,7 +13,10 @@ namespace CRUD.Businesses
         public static void Query(Database1Entities context, dynamic model)
         {
             var crud = (Models.CRUD) model;
-            crud.Products.AddRange(context.Product.ToList());
+            crud.Products.Clear();
+            crud.Products.AddRange(string.IsNullOrWhiteSpace(crud.Keyword)
+                ? context.Product.ToList()
+                : context.Product.Where(p => p.Name.Contains(crud.Keyword)).ToList());
         }
 
         /// <summary>

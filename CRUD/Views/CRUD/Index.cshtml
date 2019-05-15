@@ -21,6 +21,7 @@
 <div>
     <h4>CRUD</h4>
     <div id="crud">
+        <input v-model="keyword">{{ message }}
         <table border="1">
             <tr>
                 <td>商品名稱</td>
@@ -55,11 +56,31 @@
         var crud = new Vue({
             el: '#crud',
             data: {
+                keyword: '',
+                message: '',
                 data: null,
                 isAdd: false,
                 isEdit: false
             },
+            watch: {
+                keyword: function() {
+                    this.message = '查詢中...';
+                    this.debouncedQuery();
+                }
+            },
             methods: {
+                //查詢
+                query: function() {
+                    var d = this.$data;
+                    if (!_.isNil(d.data)) {
+                        d.data.Keyword = d.keyword;
+                    }
+                    axios.post('/crud/query', d.data)
+                        .then(function(response) {
+                            d.data = response.data;
+                            d.message = '';
+                        });
+                },
                 //新增
                 add: function() {
                     var d = this.$data;
@@ -133,11 +154,8 @@
                 }
             },
             mounted() {
-                var d = this.$data;
-                axios.post('/crud/query')
-                    .then(function(response) {
-                        d.data = response.data;
-                    });
+                this.query();
+                this.debouncedQuery = _.debounce(this.query, 500);
             }
         });
     </script>
