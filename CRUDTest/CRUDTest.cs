@@ -11,6 +11,9 @@ namespace CRUDTest
     [TestClass]
     public class CRUDTest
     {
+        /// <summary>
+        ///     儲存
+        /// </summary>
         [TestMethod]
         public void Save()
         {
@@ -25,6 +28,9 @@ namespace CRUDTest
             Assert.AreEqual(context.Product.Count(), 1);
         }
 
+        /// <summary>
+        ///     查詢
+        /// </summary>
         [TestMethod]
         public void Query()
         {
@@ -44,6 +50,9 @@ namespace CRUDTest
             Assert.AreSame(products.First(), crud.Products.First());
         }
 
+        /// <summary>
+        ///     關鍵字查詢
+        /// </summary>
         [TestMethod]
         public void QueryByKeyword()
         {
@@ -64,6 +73,9 @@ namespace CRUDTest
             Assert.AreEqual("鞋子", crud.Products.First().Name);
         }
 
+        /// <summary>
+        ///     更新
+        /// </summary>
         [TestMethod]
         public void Update()
         {
@@ -89,6 +101,9 @@ namespace CRUDTest
             Assert.AreEqual(product.Price, context.Product.First().Price);
         }
 
+        /// <summary>
+        ///     刪除
+        /// </summary>
         [TestMethod]
         public void Delete()
         {
